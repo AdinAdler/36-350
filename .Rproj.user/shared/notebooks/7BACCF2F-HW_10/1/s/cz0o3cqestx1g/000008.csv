@@ -1,0 +1,11 @@
+"0","f = function(x) { "
+"0","  if ( typeof(x) != ""character"") warning(""x should be numeric \n"")"
+"0","  tolower(x) "
+"0","}"
+"0","typeof(f(10))"
+"2","x should be numeric 
+"
+"1","[1]"
+"1"," ""character"""
+"1","
+"

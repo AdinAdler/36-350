@@ -1,0 +1,8 @@
+"0","f = function(x) { "
+"0","  suppressMessages(message(""This function returns lowercase values of your input \n""))"
+"0","  if ( typeof(x) != ""character"") stop(""x should be numeric \n"")"
+"0","  tolower(x) "
+"0","}"
+"0","f(10)"
+"2","Error in f(10) : x should be numeric 
+"

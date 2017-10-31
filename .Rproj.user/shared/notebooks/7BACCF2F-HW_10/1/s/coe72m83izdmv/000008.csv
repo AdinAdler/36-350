@@ -1,0 +1,11 @@
+"0","f = function(x) { "
+"0","  try(sqrt(x))"
+"0","  print(""foo"")"
+"0","}"
+"0","f(""A"")"
+"2","Error in sqrt(x) : non-numeric argument to mathematical function
+"
+"1","[1]"
+"1"," ""foo"""
+"1","
+"
