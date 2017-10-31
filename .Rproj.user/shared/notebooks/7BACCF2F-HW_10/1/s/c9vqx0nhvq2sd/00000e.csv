@@ -1,0 +1,21 @@
+"0","library(testthat)"
+"0","word.similarity = function(word.1,word.2)"
+"0","{"
+"0","  word.1.integers = sapply(unlist(strsplit(word.1,"""")),function(x){which(letters==x)})"
+"0","  word.2.integers = sapply(unlist(strsplit(word.2,"""")),function(x){which(letters==x)})"
+"0","  suppressWarnings(wilcox.test(x=word.1.integers,y=word.2.integers)$statistic[[1]])"
+"0","}"
+"0","word.similarity(""foon"",""baro"")"
+"1","[1]"
+"1"," 9"
+"1","
+"
+"0","test_that(desc = ""Test for strings with 0 overlap"","
+"0","          expect_length(word.similarity(""foo"",""bar""),1))"
+"0","test_that(desc = ""Test for strings with 0 overlap different length"",   "
+"0","          expect_equal(word.similarity(""fooqwetyuiop"",""bar""),0))"
+"2","Error: Test failed: 'Test for strings with 0 overlap different length'
+* word.similarity(""fooqwetyuiop"", ""bar"") not equal to 0.
+1/1 mismatches
+[1] 28 - 0 == 28
+"

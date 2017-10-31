@@ -141,7 +141,7 @@ f(-10)
 ```
 
 - 9) (20 points) Someone on your code development team has come to you and said that he has a great idea for determining whether two words are alike: convert the letters of the words to integer vectors (with "a" mapping to 1, "B" to 2, etc.), and use the statistic computed when carrying out the Wilcoxon rank sum test as a metric of similarity. (This is kinda wildly wrong, but let's go with it.) The coder then provided the function below and stated that it must go into the next release now, Now, NOW!
-```{r}
+```{r, error = TRUE}
 library(testthat)
 
 word.similarity = function(word.1,word.2)
@@ -151,17 +151,61 @@ word.similarity = function(word.1,word.2)
   suppressWarnings(wilcox.test(x=word.1.integers,y=word.2.integers)$statistic[[1]])
 }
 
-word.similarity("foo","bar")
-word.similarity("fooqwetyuiop","bar")
-word.similarity("foon","baro")
-word.similarity("fooa","tbar")
-word.similarity("fooa","")
-word.similarity("","tbar")
-word.similarity("","")
 
+
+
+
+test_that(desc = "Test for strings with 0 overlap",
+          expect_length(word.similarity("foo","bar"),1))
+
+test_that(desc = "Test for strings with 0 overlap different length",   
+          expect_equal(word.similarity("fooqwetyuiop","bar"),0))
+
+test_that(desc = "Test for 1 overlap",    
+          expect_silent(word.similarity("foon","baro")))
+
+test_that(desc = "Test for 5 overlap ",           
+          expect_type(word.similarity("fjcodoa","ftbarcdj"), "double"))
+
+test_that(desc = "Test for bad input",           
+          expect_error(word.similarity(5,"")))
+
+test_that(desc = "Test for first and second string empty ",           
+          expect_silent(word.similarity("","")))
 
 ```
 
 (Yeah, he's a bit lazy.) As a dutiful member of the team, your first responsibility is to write a series of tests utilizing functions in the <tt>testthat</tt> that will determine whether or not this code is operating correctly. Below, write at least six different test function calls, some but not all of which should fail. (Don't use any one <tt>testthat</tt> function, like <tt>expect_equal()</tt>, more than twice.) They can include tests that you know will fail, based on some future expectation: for instance, you can test whether a certain input yields a <tt>NULL</tt> (that test would fail currently). (Or whether that same input yields an error.) Then, when you improve the code below in the next question, you can improve it in such a way that your now-known-to-fail test will pass the next time. (Note that if two words have no overlap in the numerical ranks of their letters, like "aaa" and "zzz", the statistic will be zero.)
 
 - 10) (10 points) Rewrite <tt>word.similarity()</tt> below in such a way that all your tests of Q9 pass. (And demonstrate that your tests pass!)
+
+```{r, error = TRUE}
+
+word.similarity = function(word.1,word.2)
+{
+  word.1.integers = sapply(unlist(strsplit(word.1,"")),function(x){which(letters==x)})
+  word.2.integers = sapply(unlist(strsplit(word.2,"")),function(x){which(letters==x)})
+  suppressWarnings(wilcox.test(x=word.1.integers,y=word.2.integers)$statistic[[1]])
+}
+
+
+test_that(desc = "Test for strings with 0 overlap",
+          expect_length(word.similarity("foo","bar"),1))
+
+test_that(desc = "Test for strings with 0 overlap different length",   
+          expect_equal(word.similarity("fooqwetyuiop","bar"),0))
+
+test_that(desc = "Test for 1 overlap",    
+          expect_silent(word.similarity("foon","baro")))
+
+test_that(desc = "Test for 5 overlap ",           
+          expect_type(word.similarity("fjcodoa","ftbarcdj"), "double"))
+
+test_that(desc = "Test for bad input",           
+          expect_error(word.similarity(5,"")))
+
+test_that(desc = "Test for first and second string empty ",           
+          expect_silent(word.similarity("","")))
+
+```
+

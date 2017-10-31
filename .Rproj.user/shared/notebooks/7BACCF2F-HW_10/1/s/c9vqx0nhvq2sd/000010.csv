@@ -1,0 +1,23 @@
+"0","test_that(desc = ""Test for 1 overlap"",    "
+"0","          expect_silent(word.similarity(""foon"",""baro"")))"
+"0","test_that(desc = ""Test for 5 overlap "",           "
+"0","          expect_type(word.similarity(""fjcodoa"",""ftbarcdj""), ""double""))"
+"0","test_that(desc = ""Test for bad input"",           "
+"0","          expect_error(word.similarity(5,"""")))"
+"0","test_that(desc = ""Test for first and second string empty "",           "
+"0","          expect_silent(word.similarity("""","""")))"
+"2","Error: Test failed: 'Test for first and second string empty '
+* 'x' must be numeric
+1: expect_silent(word.similarity("""", """"))
+2: evaluate_promise(object)
+3: with_sink(temp, withCallingHandlers(withVisible(code), warning = handle_warning, 
+       message = handle_message))
+4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message)
+5: withVisible(code)
+6: word.similarity("""", """")
+7: suppressWarnings(wilcox.test(x = word.1.integers, y = word.2.integers)$statistic[[1]]) at :5
+8: withCallingHandlers(expr, warning = function(w) invokeRestart(""muffleWarning""))
+9: wilcox.test(x = word.1.integers, y = word.2.integers)
+10: wilcox.test.default(x = word.1.integers, y = word.2.integers)
+11: stop(""'x' must be numeric"")
+"
