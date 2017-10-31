@@ -29,14 +29,13 @@ set.seed(101)
 
 - 1) (15 points) Show us that you have a <tt>GitHub</tt> account. Create a repository on <tt>GitHub</tt> called "36-350". (Utilize the checklist in <tt>Notes_10A</tt>.) Then edit the code below so that we see the contents of <tt>README.md</tt>. To get the correct URL, do the following: go to your <tt>GitHub</tt> repo, click on <tt>36-350</tt> and then again on <tt>README.md</tt>, and click on the "Raw" button. Copy and paste the URL to the raw <tt>README.md</tt> file into the call to <tt>readLines()</tt> below.
 ```{r}
-#readLines("Enter the URL to README.md Here")
+readLines("https://raw.githubusercontent.com/AdinAdler/36-350/master/README.md")
 ```
 
 - 2) (15 points) Show us that you have <tt>Git</tt> installed on your computer. Utilize the checklist in <tt>Notes_10A</tt> to create a new project within **RStudio** that is tied to your "36-350" repo on <tt>GitHub</tt>. Then follow the listed steps in <tt>Notes_10A</tt> to create a new <tt>R Script</tt> (and *not* an <tt>R Markdown</tt> file) in which you put <tt>print("Hello, world!")</tt>. Save this file (call it <tt>hello_world.R</tt>) to your local "36-350" repo. Stage the file, commit the file (and add a commit message), and push the file to <tt>GitHub</tt>. (If when you try to commit you see an error referring to an <tt>index.lock</tt> file, try to commit again...I've seen such an error when trying to commit files on my machine and it appears to be a random occurrence.) Follow the steps above to find the URL to the raw file for <tt>hello_world.R</tt> and copy and paste that URL below in the call to <tt>source_url()</tt>. If everything works, "Hello, world!" should appear.
 ```{r}
-#install.packages("devtools")  # uncomment this if you need to install devtools
 library(devtools)
-#source_url("Enter the URL to hello_world.R Here")
+source_url("")
 ```
 
 <hr>
