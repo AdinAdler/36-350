@@ -197,7 +197,7 @@ test_that(desc = "Test for strings with 0 overlap different length",
 
 test_that(desc = "Test for 1 overlap",    
           expect_silent(word.similarity("foon","baro")))
-
+ 
 test_that(desc = "Test for 5 overlap ",           
           expect_type(word.similarity("fjcodoa","ftbarcdj"), "double"))
 
