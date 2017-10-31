@@ -188,7 +188,7 @@ word.similarity = function(word.1,word.2)
   suppressWarnings(wilcox.test(x=word.1.integers,y=word.2.integers)$statistic[[1]])
 }
 
-
+  
 test_that(desc = "Test for strings with 0 overlap",
           expect_length(word.similarity("foo","bar"),1))
 
