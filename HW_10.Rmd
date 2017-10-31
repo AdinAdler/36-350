@@ -51,7 +51,7 @@ f = function(x) {
 
 ```{r,error=TRUE}
 f = function(x) { 
-  if ( typeof(x) != "character") warning("x should be numeric \n")
+  if ( typeof(x) != "character") warning("x should be a character \n")
   tolower(x) 
 }
 f(10)
@@ -63,7 +63,7 @@ f(10)
 
 ```{r,error=TRUE}
 f = function(x) { 
-  if ( typeof(x) != "character") stop("x should be numeric \n")
+  if ( typeof(x) != "character") stop("x should be a character \n")
   tolower(x) 
 }
 f(10)
@@ -74,7 +74,7 @@ f(10)
 ```{r,error=TRUE}
 f = function(x) { 
   suppressMessages(message("This function returns lowercase values of your input \n"))
-  if ( typeof(x) != "character") stop("x should be numeric \n")
+  if ( typeof(x) != "character") stop("x should be a character \n")
   tolower(x) 
 }
 f(10)
@@ -188,7 +188,7 @@ word.similarity = function(word.1,word.2)
   suppressWarnings(wilcox.test(x=word.1.integers,y=word.2.integers)$statistic[[1]])
 }
 
-  
+
 test_that(desc = "Test for strings with 0 overlap",
           expect_length(word.similarity("foo","bar"),1))
 
