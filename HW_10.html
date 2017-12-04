@@ -213,7 +213,7 @@ f(&quot;A&quot;)</code></pre>
 }
 f(&quot;A&quot;)</code></pre>
 <pre><code>## [1] &quot;foo&quot;</code></pre>
-<p><strong>I see the word foo now</strong></p>
+<p><strong>I see the word <code>foo</code> now</strong></p>
 <ul>
 <li><ol start="7" style="list-style-type: decimal">
 <li>(10 points) Alter your function in Q6, replacing the <tt>try()</tt> with <tt>tryCatch()</tt> (and deleting the <tt>print(“foo”)</tt>). Catch what you feel are the relevant conditions here, and deal with them appropriately (by informing the user what went wrong). (For instance…do you think <tt>sqrt()</tt> issues informative messages? Or not?) Call the function with a character, and call it again with a negative number.</li>
@@ -275,22 +275,31 @@ f(10)</code></pre>
 test_that(desc = &quot;Test for strings with 0 overlap&quot;,
           expect_length(word.similarity(&quot;foo&quot;,&quot;bar&quot;),1))
 
-test_that(desc = &quot;Test for strings with 0 overlap different length&quot;,   
-          expect_equal(word.similarity(&quot;fooqwetyuiop&quot;,&quot;bar&quot;),0))</code></pre>
-<pre><code>## Error: Test failed: 'Test for strings with 0 overlap different length'
-## * word.similarity(&quot;fooqwetyuiop&quot;, &quot;bar&quot;) not equal to 0.
-## 1/1 mismatches
-## [1] 28 - 0 == 28</code></pre>
+test_that(desc = &quot;Test for input that is a vector of characters&quot;,   
+          expect_null(word.similarity(&quot;fooqwetyuiop&quot;,c(&quot;bar&quot;, &quot;foo&quot;))))</code></pre>
+<pre><code>## Error: Test failed: 'Test for input that is a vector of characters'
+## * word.similarity(&quot;fooqwetyuiop&quot;, c(&quot;bar&quot;, &quot;foo&quot;)) is not null.</code></pre>
 <pre class="r"><code>test_that(desc = &quot;Test for 1 overlap&quot;,    
           expect_silent(word.similarity(&quot;foon&quot;,&quot;baro&quot;)))
-
+ 
 test_that(desc = &quot;Test for 5 overlap &quot;,           
           expect_type(word.similarity(&quot;fjcodoa&quot;,&quot;ftbarcdj&quot;), &quot;double&quot;))
 
 test_that(desc = &quot;Test for bad input&quot;,           
-          expect_error(word.similarity(5,&quot;&quot;)))
-
-test_that(desc = &quot;Test for first and second string empty &quot;,           
+          expect_null(word.similarity(5,&quot;&quot;)))</code></pre>
+<pre><code>## Error: Test failed: 'Test for bad input'
+## * non-character argument
+## 1: expect_null(word.similarity(5, &quot;&quot;))
+## 2: expect(is.null(object), sprintf(&quot;%s is not null.&quot;, lab), info = info)
+## 3: as.expectation(exp, ..., srcref = srcref)
+## 4: word.similarity(5, &quot;&quot;)
+## 5: sapply(unlist(strsplit(word.1, &quot;&quot;)), function(x) {
+##        which(letters == x)
+##    }) at &lt;text&gt;:5
+## 6: lapply(X = X, FUN = FUN, ...)
+## 7: unlist(strsplit(word.1, &quot;&quot;))
+## 8: strsplit(word.1, &quot;&quot;)</code></pre>
+<pre class="r"><code>test_that(desc = &quot;Test for first and second string empty &quot;,           
           expect_silent(word.similarity(&quot;&quot;,&quot;&quot;)))</code></pre>
 <pre><code>## Error: Test failed: 'Test for first and second string empty '
 ## * 'x' must be numeric
@@ -314,46 +323,37 @@ test_that(desc = &quot;Test for first and second string empty &quot;,
 </ul>
 <pre class="r"><code>word.similarity = function(word.1,word.2)
 {
-  word.1.integers = sapply(unlist(strsplit(word.1,&quot;&quot;)),function(x){which(letters==x)})
+  # Add a check for correct types
+  if (length(word.1) &gt; 1 | length(word.2) &gt; 1 | typeof(word.1) != &quot;character&quot; | typeof(word.2) != &quot;character&quot;){
+    invisible(return (NULL))
+  }
+  # Add a check if either string is empty
+  if (word.1 == &quot;&quot; | word.2 == &quot;&quot;) {return (0)}
+  
+    word.1.integers = sapply(unlist(strsplit(word.1,&quot;&quot;)),function(x){which(letters==x)})
   word.2.integers = sapply(unlist(strsplit(word.2,&quot;&quot;)),function(x){which(letters==x)})
   suppressWarnings(wilcox.test(x=word.1.integers,y=word.2.integers)$statistic[[1]])
 }
 
 
+
 test_that(desc = &quot;Test for strings with 0 overlap&quot;,
           expect_length(word.similarity(&quot;foo&quot;,&quot;bar&quot;),1))
 
-test_that(desc = &quot;Test for strings with 0 overlap different length&quot;,   
-          expect_equal(word.similarity(&quot;fooqwetyuiop&quot;,&quot;bar&quot;),0))</code></pre>
-<pre><code>## Error: Test failed: 'Test for strings with 0 overlap different length'
-## * word.similarity(&quot;fooqwetyuiop&quot;, &quot;bar&quot;) not equal to 0.
-## 1/1 mismatches
-## [1] 28 - 0 == 28</code></pre>
-<pre class="r"><code>test_that(desc = &quot;Test for 1 overlap&quot;,    
+test_that(desc = &quot;Test for input that is a vector of characters&quot;,   
+          expect_null(word.similarity(&quot;fooqwetyuiop&quot;,c(&quot;bar&quot;, &quot;foo&quot;))))
+
+test_that(desc = &quot;Test for 1 overlap&quot;,    
           expect_silent(word.similarity(&quot;foon&quot;,&quot;baro&quot;)))
  
 test_that(desc = &quot;Test for 5 overlap &quot;,           
           expect_type(word.similarity(&quot;fjcodoa&quot;,&quot;ftbarcdj&quot;), &quot;double&quot;))
 
 test_that(desc = &quot;Test for bad input&quot;,           
-          expect_error(word.similarity(5,&quot;&quot;)))
+          expect_null(word.similarity(5,&quot;&quot;)))
 
 test_that(desc = &quot;Test for first and second string empty &quot;,           
           expect_silent(word.similarity(&quot;&quot;,&quot;&quot;)))</code></pre>
-<pre><code>## Error: Test failed: 'Test for first and second string empty '
-## * 'x' must be numeric
-## 1: expect_silent(word.similarity(&quot;&quot;, &quot;&quot;))
-## 2: evaluate_promise(object)
-## 3: with_sink(temp, withCallingHandlers(withVisible(code), warning = handle_warning, 
-##        message = handle_message))
-## 4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message)
-## 5: withVisible(code)
-## 6: word.similarity(&quot;&quot;, &quot;&quot;)
-## 7: suppressWarnings(wilcox.test(x = word.1.integers, y = word.2.integers)$statistic[[1]]) at &lt;text&gt;:6
-## 8: withCallingHandlers(expr, warning = function(w) invokeRestart(&quot;muffleWarning&quot;))
-## 9: wilcox.test(x = word.1.integers, y = word.2.integers)
-## 10: wilcox.test.default(x = word.1.integers, y = word.2.integers)
-## 11: stop(&quot;'x' must be numeric&quot;)</code></pre>
 
 
 

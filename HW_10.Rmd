@@ -107,7 +107,7 @@ f = function(x) {
 f("A")
 ```
 
-**I see the word foo now**
+**I see the word `foo` now**
 
 - 7) (10 points) Alter your function in Q6, replacing the <tt>try()</tt> with <tt>tryCatch()</tt> (and deleting the <tt>print("foo")</tt>). Catch what you feel are the relevant conditions here, and deal with them appropriately (by informing the user what went wrong). (For instance...do you think <tt>sqrt()</tt> issues informative messages? Or not?) Call the function with a character, and call it again with a negative number.
 
@@ -158,17 +158,17 @@ word.similarity = function(word.1,word.2)
 test_that(desc = "Test for strings with 0 overlap",
           expect_length(word.similarity("foo","bar"),1))
 
-test_that(desc = "Test for strings with 0 overlap different length",   
-          expect_equal(word.similarity("fooqwetyuiop","bar"),0))
+test_that(desc = "Test for input that is a vector of characters",   
+          expect_null(word.similarity("fooqwetyuiop",c("bar", "foo"))))
 
 test_that(desc = "Test for 1 overlap",    
           expect_silent(word.similarity("foon","baro")))
-
+ 
 test_that(desc = "Test for 5 overlap ",           
           expect_type(word.similarity("fjcodoa","ftbarcdj"), "double"))
 
 test_that(desc = "Test for bad input",           
-          expect_error(word.similarity(5,"")))
+          expect_null(word.similarity(5,"")))
 
 test_that(desc = "Test for first and second string empty ",           
           expect_silent(word.similarity("","")))
@@ -183,17 +183,25 @@ test_that(desc = "Test for first and second string empty ",
 
 word.similarity = function(word.1,word.2)
 {
-  word.1.integers = sapply(unlist(strsplit(word.1,"")),function(x){which(letters==x)})
+  # Add a check for correct types
+  if (length(word.1) > 1 | length(word.2) > 1 | typeof(word.1) != "character" | typeof(word.2) != "character"){
+    invisible(return (NULL))
+  }
+  # Add a check if either string is empty
+  if (word.1 == "" | word.2 == "") {return (0)}
+  
+    word.1.integers = sapply(unlist(strsplit(word.1,"")),function(x){which(letters==x)})
   word.2.integers = sapply(unlist(strsplit(word.2,"")),function(x){which(letters==x)})
   suppressWarnings(wilcox.test(x=word.1.integers,y=word.2.integers)$statistic[[1]])
 }
 
 
+
 test_that(desc = "Test for strings with 0 overlap",
           expect_length(word.similarity("foo","bar"),1))
 
-test_that(desc = "Test for strings with 0 overlap different length",   
-          expect_equal(word.similarity("fooqwetyuiop","bar"),0))
+test_that(desc = "Test for input that is a vector of characters",   
+          expect_null(word.similarity("fooqwetyuiop",c("bar", "foo"))))
 
 test_that(desc = "Test for 1 overlap",    
           expect_silent(word.similarity("foon","baro")))
@@ -202,7 +210,7 @@ test_that(desc = "Test for 5 overlap ",
           expect_type(word.similarity("fjcodoa","ftbarcdj"), "double"))
 
 test_that(desc = "Test for bad input",           
-          expect_error(word.similarity(5,"")))
+          expect_null(word.similarity(5,"")))
 
 test_that(desc = "Test for first and second string empty ",           
           expect_silent(word.similarity("","")))
